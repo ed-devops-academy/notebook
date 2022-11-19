@@ -111,6 +111,35 @@ done
 
 ## **Shared libraries managment**
 
+Linux shared library can have three names. Which are:
+
+* **Linker name** (eg: libexample.so)
+* **Soname** (eg : libexample.so.1.2) Represent the major version of the library
+* **Real Name** (eg : libexample.so.1.2.3) Minor version of the library. The actual name
+
+Linker name points to the soname, and soname points to real name
+
+### Commands of interest
+<hr/>
+
+* **ldconfig:** `ldconfig -n pathof_dir_where_shared_library_is_located`. This command is to install a custom shared library. *ldconfig* creates a symbolic with soname which points to the real name and update the cache which is used by programs to speed up the loading of shared libraries. ldconfig doesn’t setup the linker name. Therefore, you have to manually create a symbolic link with the linker name which points to the soname. The command you would have to execute for this purpose is `ln -s libexample.so.1.2 libexample.so`.
+* **ldd:** `ldd` command print shared object dependencies
+```
+# example to check ls command shared libraries dependencies
+emiguel@emiguel-ubuntu:~$ ldd /usr/bin/ls
+linux-vdso.so.1 (0x00007fff5b38d000)
+libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007f45902a0000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f45900ae000)
+libpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x00007f459001e000)
+libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f4590018000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f459030d000)
+libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f458fff5000)
+```
+
+### Shared libraries directories
+<hr/>
+
+Use environment variable **LD_LIBRARY_PATH** to add new custom directories with dynamic libraries. Also you can modified file /etc/ld.so.conf to add new libraries instead the adding it to save dirs like */usr/lib*, */lib* or */usr/local/lib*
 
 
 
