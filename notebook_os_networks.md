@@ -2,6 +2,7 @@
 
 ## **Contents**
 * [Installing and working with a boot manager (GRUB 2)](#installing-and-working-with-a-boot-manager-grub-2)
+* [Shared libraries managment](#shared-libraries-managment)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -51,10 +52,12 @@ root@emiguel-ubuntu:~$ ls -l /boot/grub/i386-pc/core.img
 
 **Booting with GRUB 2 rescue CD from existing GRUB installation**
 
+Use the next example to repair a old grub installation that got hidden cause of a new OS installation.
+
 From GRUB boot terminal use `ls` command to list the devices and search for the system that have a GRUB installation. Next follow the next steps:
 
-* `set prefix=(hd1,gpt1)/boot/grub`
-* `set root=(hd1,gpt1)/`
+* `set prefix=(hd1,gpt1)/boot/grub` *--to point grub root installation that you want to boot--*
+* `set root=(hd1,gpt1)/` *-- partition root where GRUB  is installed --*
 * `lsmod normal`
 * `normal`
 
@@ -105,5 +108,9 @@ Found openSUSE 11.4 (x86_64) on /dev/sda8
 Found Ubuntu 12.04 LTS (12.04) on /dev/sda9
 done
 ```
+
+## **Shared libraries managment**
+
+
 
 
