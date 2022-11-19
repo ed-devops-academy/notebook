@@ -5,4 +5,4 @@ A project to add notes, guidelines, and knowledge adquired during the Musala's A
 
 ## Sections
 
-* [Linux OS and Networks](os_networks.md)
+* [Linux OS and Networks](notebook_os_networks.md)
