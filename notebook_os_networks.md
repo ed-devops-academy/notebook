@@ -3,6 +3,7 @@
 ## **Contents**
 * [Installing and working with a boot manager (GRUB 2)](#installing-and-working-with-a-boot-manager-grub-2)
 * [Shared libraries managment](#shared-libraries-managment)
+* [Process text streams using filters. Use streams, pipes and redirects](#process-text-streams-using-filters-use-streams-pipes-and-redirects)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -140,6 +141,99 @@ libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f458fff5000)
 <hr/>
 
 Use environment variable **LD_LIBRARY_PATH** to add new custom directories with dynamic libraries. Also you can modified file /etc/ld.so.conf to add new libraries instead the adding it to save dirs like */usr/lib*, */lib* or */usr/local/lib*
+
+## **Process text streams using filters. Use streams, pipes and redirects**
+
+### Imprtant metacharacters
+<hr/>
+
+Metacharacters are special characters that are used in Linux and any Unix-based system. Those metacharacters are as follows:
+
+* **\>** Output redirection.   >>: Output redirection – append.
+* **<** Input redirection.
+* **<<** Input redirection.
+* **\*** File substitution wildcard. This is used to match any string of none or more characters.
+* **?** File substitution wildcard. This is used to match a single character.
+* **[ ]** File substitution wildcard. This is used to match any of the characters inside the brackets.
+* **|** Pipe for using multiple commands.
+* **;** Command execution sequence.
+
+### Filtering/ordering commands
+* **sort:** Sort lines depending of the options
+* **grep:** Obtain lines that matchs a pattern (include regex)
+* **find:** Used to search for files location looking for names that match a expression
+* **tail:** Show the last lines of a file
+* **head:** Returns first line of a file
+* **less:** Allow forward and backward movement through the lines of a file. Use this instead of more
+* **wc:** Returns line of numbers, words, chars, depending of the parameters that you pass to the command.
+ 
+### Piping between commands
+<hr/>
+
+The pipe (**|**) metacharacter connects the output from one command to the input of another
+command. This lets you have one command work on some data and then have the next
+command deal with the results, like the next example:
+
+`gunzip < /usr/share/man/man1/grep.1.gz | nroff -c -man | less`
+
+On this example, the contents of the grep man page (grep.1.gz) are directed to the
+gunzip command to be unzipped. The output from gunzip is piped to the nroff com-
+mand to format the man page using the manual macro (-man). The output is piped to the
+less command to display the output. Because the ﬁ le being displayed is in plain text, you
+could have substituted any number of options to work with the text before displaying it.
+You could sort the contents, change or delete some of the content, or bring in text from
+other documents. The key is that, instead of all those features being in one program, you
+get results from piping and redirecting input and output between multiple commands.
+
+Other simplier way to to do the same will be:
+
+`man grep | less`
+
+### Commands redirections
+<hr/>
+
+Every single process in Linux has at least 3 communication channels available:
+
+* Standard Input - STDIN
+* Standard Output - STDOUT
+* Standard Error - STDERR
+
+The Kernel itself sets up those channels on the behalf of the process. The process itself doesn't necessarily know where they lead. Most Linux commands accept input from STDIN and write output in STDOUT. Error messages are written to STDERR. This allows you to connect commands together to create pipelines.
+
+The Shell uses the symbols <,> and >> as instructions to reroute the instructions of a command input or output to or from a file. The < symbol is connecting the command's STDIN to the contents of an existing file. The > and the >> symbols redirect STDOUT. > replaces the file's existing contents and the >> symbols append to them.
+
+The following command would store the text you type between the " " in a file. If the file doesn't exist, it will be created.
+
+`echo "Test Message" > testmessage`
+
+
+The next command would send an email with the contents of that file, so only the text, not the file itself, to the user Peter.
+
+`mail -s "testmsg" peter < testmessage`
+ 
+An example with the find command
+
+If we use the find command we get a nice demonstration of why you would want to handle STDOUT and STDERR separately. If we run the following command:
+
+`find / -name core`
+
+We usually get a lot of Permission Denied error messages. To discard all of those error messages you can run the following command instead:
+
+`find / -name core 2> /dev/null`
+
+Which gives us a much cleaner result.
+
+### Exercises and answers
+<hr/>
+
+1- Run the date command in such a way that the output from that command
+produces the current day, month, date, and year. Have that read into another
+command line, resulting in text that appears like the following (your date, of
+course, will be different): Today is Thursday, December 10, 2015.
+
+**Answer:**
+
+`date +"Today is %A, %B %d, %Y"`
 
 
 
