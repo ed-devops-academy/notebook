@@ -51,18 +51,6 @@ Installation finished. No error reported.
 root@emiguel-ubuntu:~$ ls -l /boot/grub/i386-pc/core.img
 -rw-r--r-- 1 root root 25363 Jul 12 23:15 /boot/grub/i386-pc/core.img
 ```
-
-**Booting with GRUB 2 rescue CD from existing GRUB installation**
-
-Use the next example to repair a old grub installation that got hidden cause of a new OS installation.
-
-From GRUB boot terminal use `ls` command to list the devices and search for the system that have a GRUB installation. Next follow the next steps:
-
-* `set prefix=(hd1,gpt1)/boot/grub` *--to point grub root installation that you want to boot--*
-* `set root=(hd1,gpt1)/` *-- partition root where GRUB  is installed --*
-* `lsmod normal`
-* `normal`
-
 **2- grub-mkrescue or grub2-mkrescue** command to help you create a rescue CD image
 
 ```
@@ -90,6 +78,17 @@ root@emiguel-ubuntu:~$ sudo dd if=rescue.iso of=/dev/sde
 9864+0 records out
 5050368 bytes (5.1 MB) copied, 3.95946 s, 1.3 MB/s
 ```
+
+**Booting with GRUB 2 rescue CD from existing GRUB installation**
+
+Use the next example to repair a old grub installation that got hidden cause of a new OS installation.
+
+From GRUB boot terminal use `ls` command to list the devices and search for the system that have a GRUB installation. Next follow the next steps:
+
+* `set prefix=(hd1,gpt1)/boot/grub` *--to point grub root installation that you want to boot--*
+* `set root=(hd1,gpt1)/` *-- partition root where GRUB  is installed --*
+* `lsmod normal`
+* `normal`
 
 **3- grub-update** command to generate a new /boot/grub/grub.cfg file
 ```
