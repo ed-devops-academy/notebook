@@ -303,7 +303,7 @@ Hint: Use the grep command.
 
   IPC sockets use a local file as a socket address and enable bidirectional communication between processes on the same host. On the other hand, network sockets extend the IPC data connectivity layer beyond the local machine via TCP/UDP networking. Apart from the obvious implementation differences, the IPC socket's and network socket's data communication channel behave the same.
 
-### Signal and their values
+### Signals and their values
 <hr/>
 
 ```
