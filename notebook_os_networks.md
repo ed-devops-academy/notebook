@@ -250,7 +250,7 @@ Hint: Use the tar command.
 ```
 find /etc/ -name *.conf -print0 2> /dev/null | tar --create --verbose --file all_etc_conf.tar --null -T -
 ``` 
-**-print0** to specify i find also the filename with blan spaces, the **-T** option in tar the use as input a file, in this case the result of find and the **-** at the end of tar to use to use the STDIN as input.
+**-print0** to specify i find also the filename with blan spaces, the **-T** option in tar the use as input a file, in this case the result of find and the **-** at the end of tar to specify use the STDIN as input file.
 
 3- What is the command that lists the first five files inside /etc and sorts them by dimension in descending order?
 Hint: Use find combined with sort and head.
