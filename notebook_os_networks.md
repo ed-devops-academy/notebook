@@ -166,7 +166,9 @@ Metacharacters are special characters that are used in Linux and any Unix-based 
 * **head:** Returns first line of a file
 * **less:** Allow forward and backward movement through the lines of a file. Use this instead of more
 * **wc:** Returns line of numbers, words, chars, depending of the parameters that you pass to the command.
- 
+* **tee:** This command is very similar to the cat command. Basically, it does the same thing, by copying the standard input to standard output with no alteration, but it also copies that into one or more files.
+* **sed:** It is a data stream editor that edits files based on a strict set of rules supplied beforehand. Based on the rules, the command reads the file line by line and the data inside the file is then manipulated. sed is a non-interactive stream editor that makes changes based on a script, and in this respect, it is well suited for editing more files at once or for doing mundane repetitive tasks. 
+  
 ### Piping between commands
 <hr/>
 
@@ -235,5 +237,41 @@ course, will be different): Today is Thursday, December 10, 2015.
 
 `date +"Today is %A, %B %d, %Y"`
 
+2- What is the command that creates a compressed archive with all the files inside the /etc directory that use the .conf extension?
+Hint: Use the tar command.
 
+**Answer:**
+
+**All .conf on the first level on /etc folder:** 
+
+`tar -cv /etc/*.conf > all_etc_conf.tar`
+
+**Recursively all .conf files on /etc folder** 
+```
+find /etc/ -name *.conf -print0 2> /dev/null | tar --create --verbose --file all_etc_conf.tar --null -T -
+``` 
+**-print0** to specify i find also the filename with blan spaces, the **-T** option in tar the use as input a file, in this case the result of find and the **-** at the end of tar to use to use the STDIN as input.
+
+3- What is the command that lists the first five files inside /etc and sorts them by dimension in descending order?
+Hint: Use find combined with sort and head.
+
+**Answer**
+
+`find /etc -maxdepth 1 -type f -print0 | du --files0-from=- | sort -gr | head -5`
+
+4- What is the command that searches for files with three different extensions inside root?
+
+Hint: Use the find command.
+
+**Answer**
+
+`find / -type f \( -name "*.c" -o -name "*.sh" -o -name "*.py" \)`
+
+5- How do you find out when sudo was last used and which commands were executed by it?
+
+Hint: Use the grep command.
+
+**Answer**
+
+`history | grep sudo`
 
