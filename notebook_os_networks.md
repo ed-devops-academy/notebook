@@ -4,6 +4,7 @@
 * [Installing and working with a boot manager (GRUB 2)](#installing-and-working-with-a-boot-manager-grub-2)
 * [Shared libraries managment](#shared-libraries-managment)
 * [Process text streams using filters. Use streams, pipes and redirects](#process-text-streams-using-filters-use-streams-pipes-and-redirects)
+* [Create, monitor and kill processes and working with cron](#create-monitor-and-kill-processes-and-working-with-cron)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -275,3 +276,47 @@ Hint: Use the grep command.
 
 `history | grep sudo`
 
+## Create, monitor and kill processes and working with cron
+
+### Commands of interest
+<hr/>
+
+* **pstree:** displays the whole process tree, and it shows the init process at its root; in our case, systemd (on Ubuntu or CentOS)
+* **ps:** List the process
+* **kill:** Kill process passing the process PID (process identifier)
+* **top:** Show on realtime the CPUs and other info of the process
+* **mkfifo:** Make FIFOs (named pipes)
+
+### Interprocess communication (IPC)
+<hr/>
+
+* **Shared storage (file):** n its simplest form, the shared storage of an IPC mechanism can be a simple file that's been saved to disk. The producer then writes to a file while the consumer reads from the same file. In this simple use case, the obvious challenge is the integrity of the read/write operations due to possible race conditions between the underlying operations.
+* **Shared memory:** Processes in Linux typically have separate address spaces. A process can only access data in the memory of another process if the two share a common memory segment where such data would be stored. Linux provides at least a couple of Application Programming Interfaces (APIs) to programmatically define and control shared memory between processes
+* **Unnamed pipes:** The key element of the preceding illustration is the pipe (|) symbol. The left-hand side of the pipe produces an output that's fed directly to the right-hand side of the pipe for consumption.
+* **Named pipes:** Named pipes, also known as First In, First Outs (FIFOs), are similar to traditional (unnamed) pipes but substantially different in terms of their semantics. An unnamed pipe only persists for as long as the related process is running. However, a named pipe has backing storage and will last as long as the system is up, regardless of the running status of the processes attached to the related IPC channel.
+* **Message queues:** A message queue is an asynchronous communication mechanism that's typically used in a distributed system architecture. Messages are written and stored in a queue until they are processed and eventually deleted. A message is written (published) by a producer and is processed only once, typically by a single consumer. At a very high level, a message has a sequence, a payload, and a type. Message queues can regulate the retrieval (order) of messages (for example, based on priority or type)
+* **Sockets:** There are two types of IPC socket-based facilities:
+
+  1- IPC sockets: Also known as Unix domain sockets
+
+  2- Network sockets: Transport Control Protocol (TCP) and User Datagram Protocol (UDP) sockets
+
+  IPC sockets use a local file as a socket address and enable bidirectional communication between processes on the same host. On the other hand, network sockets extend the IPC data connectivity layer beyond the local machine via TCP/UDP networking. Apart from the obvious implementation differences, the IPC socket's and network socket's data communication channel behave the same.
+
+### Signal and their values
+<hr/>
+
+```
+ 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+ 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+```
