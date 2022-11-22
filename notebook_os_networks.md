@@ -5,6 +5,7 @@
 * [Shared libraries managment](#shared-libraries-managment)
 * [Process text streams using filters. Use streams, pipes and redirects](#process-text-streams-using-filters-use-streams-pipes-and-redirects)
 * [Create, monitor and kill processes and working with cron](#create-monitor-and-kill-processes-and-working-with-cron)
+* [Basic file editing operations using vi](#basic-file-editing-operations-using-vi)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -319,3 +320,135 @@ Hint: Use the grep command.
 53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
 58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
 ```
+
+## Basic file editing operations using vi
+
+### Adding text
+<hr/>
+
+To get into input mode, type an input command letter. To begin, type any of the following
+letters. When you are ﬁ nished inputting text, press the Esc key (sometimes twice) to return
+to command mode. Remember the Esc key!
+
+*  **a** — The add command. With this command, you can input text that starts to the
+right of the cursor.
+ * **A** — The add at end command. With this command, you can input text starting at
+the end of the current line.
+
+* **i** — The insert command. With this command, you can input text that starts to the
+left of the cursor.
+* **I** — The insert at beginning command. With this command, you can input text that
+starts at the beginning of the current line.
+* **o** — The open below command. This command opens a line below the current line
+and puts you in insert mode.
+* **O** — The open above command. This command opens a line above the current line
+and puts you in insert mode.
+
+**Tip** Use ESC to return to command mode
+
+### Moving around in the text
+<hr/>
+
+To move around in the text, you can use the up, down, right, and left arrows. However,
+many of the keys for moving around are right under your ﬁ ngertips when they are in
+typing position:
+
+ * **Arrow keys** — Move the cursor up, down, left, or right in the ﬁ le one character
+at a time. To move left and right, you can also use Backspace and the spacebar,
+respectively. If you prefer to keep your ﬁ ngers on the keyboard, move the cursor
+with h (left), l (right), j (down), or k (up).
+* **w** — Moves the cursor to the beginning of the next word (delimited by spaces, tabs,
+or punctuation).
+* **W** — Moves the cursor to the beginning of the next word (delimited by spaces or tabs).
+* **b** — Moves the cursor to the beginning of the previous word (delimited by spaces,
+tabs, or punctuation).
+* **B** Moves the cursor to the beginning of the previous word (delimited by spaces
+or tabs).
+* **0 (zero)** — Moves the cursor to the beginning of the current line.
+* **$** — Moves the cursor to the end of the current line.
+* **H** — Moves the cursor to the upper-left corner of the screen (ﬁ rst line on the screen).
+* **M** — Moves the cursor to the ﬁ rst character of the middle line on the screen.
+* **L** — Moves the cursor to the lower-left corner of the screen (last line on the screen).
+
+### Deleting, copying, and changing text
+</hr>
+
+The only other editing you need to know is how to delete, copy, or change text. The x, d,
+y, and c commands can be used to delete and change text. These can be used along with
+movement keys (arrows, PgUp, PgDn, letters, and special keys) and numbers to indicate
+exactly what you are deleting, copying, or changing. Consider the following examples:
+
+* **x** — Deletes the character under the cursor.
+* **X** — Deletes the character directly before the cursor.
+* **d<?>** — Deletes some text.
+* **c<?>** — Changes some text.
+* **y<?>** — Yanks (copies) some text.
+
+The <?> after each letter in the preceding list identiﬁ es the place where you can use a
+movement command to choose what you are deleting, changing, or yanking. For example:
+
+* **dw** — Deletes (d) a word (w) after the current cursor position.
+* **db** — Deletes (d) a word (b) before the current cursor position.
+* **dd** — Deletes (d) the entire current line (d).
+* **c$** — Changes (c) the characters (actually erases them) from the current character
+to the end of the current line ($) and goes into input mode.
+* **c0** — Changes (c) (again, erases characters) from the previous character to the
+beginning of the current line (0) and goes into input mode.
+* **cl** — Erases (c) the current letter (l) and goes into input mode.
+* **cc** — Erases (c) the line (c) and goes into input mode.
+* **yy** — Copies (y) the current line (y) into the buffer.
+* **y)** — Copies (y) the current sentence ( ) ), to the right of the cursor, into the buffer.
+* **y}** — Copies (y) the current paragraph ( } ), to the right of the cursor, into the buffer.
+
+Any of the commands just shown can be further modiﬁ ed using numbers, as you can see in
+the following examples:
+
+* **3dd** — Deletes (d) three (3) lines (d), beginning at the current line.
+* **3dw** — Deletes (d) the next three (3) words (w).
+* **5cl** — Changes (c) the next ﬁ ve (5) letters (l) (that is, removes the letters and
+enters input mode).
+* **12j** — Moves down (j) 12 lines (12).
+* **5cw** — Erases (c) the next ﬁ ve (5) words (w) and goes into input mode.
+* **4y)** — Copies (y) the next four (4) sentences ( ) ).
+
+### Pasting (putting) text
+<hr/>
+After text has been copied to the buffer (by deleting, changing, or yanking it), you can
+place that text back in your ﬁ le using the letter p or P. With both commands, the text most
+recently stored in the buffer is put into the ﬁ le in different ways.
+
+* **P** — Puts the copied text to the left of the cursor if the text consists of letters or
+words; puts the copied text above the current line if the copied text contains
+lines of text.
+* **p** — Puts the buffered text to the right of the cursor if the text consists of letters or
+words; puts the buffered text below the current line if the buffered text contains
+lines of text.
+
+### Searching for text
+<hr/>
+
+To search for the next or previous occurrence of text in the ﬁ le, use either the slash (/) or
+the question mark (?) character. Follow the slash or question mark with a pattern (string of
+text) to search forward or backward, respectively, for that pattern. Within the search, you
+can also use metacharacters. Here are some examples:
+* **/hello** — Searches forward for the word hello.
+* **?goodbye** — Searches backward for the word goodbye.
+* **/The.\*foot** — Searches forward for a line that has the word The in it and also,
+after that at some point, the word foot.
+* **?\[pP]rint** — Searches backward for either print or Print. Remember that case
+matters in Linux, so make use of brackets to search for words that could have
+different capitalization.
+
+After you have entered a search term, simply type n or N to search again in the same
+direction (n) or the opposite direction (N) for the term.
+
+### Exiting vi
+<hr/>
+
+To wrap things up, use the following commands to save or quit the ﬁle
+
+* **ZZ** — Saves the current changes to the ﬁ le and exits from vi.
+* **:w** — Saves the current ﬁ le but doesn't exit from vi.
+* **:wq** — Works the same as ZZ.
+* **:q** — Quits the current ﬁ le. This works only if you don’t have any unsaved changes.
+* **:q!** — Quits the current ﬁ le and doesn’t save the changes you just made to the ﬁ le.
