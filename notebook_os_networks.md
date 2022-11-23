@@ -452,3 +452,28 @@ To wrap things up, use the following commands to save or quit the ﬁle
 * **:wq** — Works the same as ZZ.
 * **:q** — Quits the current ﬁ le. This works only if you don’t have any unsaved changes.
 * **:q!** — Quits the current ﬁ le and doesn’t save the changes you just made to the ﬁ le.
+
+## Mounting and unmounting filesystems
+
+### Mounting/unmounting
+<hr/>
+
+1- Creating a directory to mount the partition
+
+`sudo mkdir /mnt/hdd`
+
+2- Mount the partition using the following command:
+
+`sudo mount /dev/sda /mnt/hdd`
+
+3- Using `sudo umount /dev/sda` to unmount partition
+
+### Persistent mounting
+<hr/>
+Mounting a filesystem only makes them available until the system is shut down or rebooted. If you want the changes to be persistent, you will have to edit the /etc/fstab file accordingly. First, open the file with your favorite text editor:
+
+sudo nano /etc/fstab
+
+Add a new line similar to the one that follows:
+
+`LABEL=NEW_STORAGE /dev/sda /mnt/sdb ext4 defaults 0 0`
