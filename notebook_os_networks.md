@@ -7,6 +7,7 @@
 * [Create, monitor and kill processes and working with cron](#create-monitor-and-kill-processes-and-working-with-cron)
 * [Basic file editing operations using vi](#basic-file-editing-operations-using-vi)
 * [Working with Logical Volume Managment (LVM)](#working-with-logical-volume-managment-lvm)
+* [Logging](#logging)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -510,10 +511,55 @@ Add a new line similar to the one that follows:
 
   1- Cn be used *lvextend* to extend the size of the snapshot.
 
-  2- To restore a snapshot, first you would need to unmount the filesystem. To unmount, we will use the umount command: `sudo umount /mnt/mymusic`. And then we can proceed to restore the snapshot with the lvconvert command like this: `lconvert --merge /dev/mapper/new_volumne_name-music--snap01`
+  2- To restore a snapshot, first you would need to unmount the filesystem. To unmount, we will use the umount command: `sudo umount /mnt/mymusic`. And then we can proceed to restore the snapshot with the lvconvert command like this: `lconvert --merge /dev/mapper/new_volumne_name-music--snap01`. After that the snapshot is removed.
 
 * **lvextend** - Use to extend the size of a logical volume with space available on the volume group. Example 
 
   1- `lvextend -L +5G /dev/mapper/new_volumne_name-music` Adds 5G to the logical volume
 
   2- Then resize the filesystem to fit the new size of the logical volume using *resize2fs*. Example: `resize2fs -p /dev/mapper/new_volumne_name-music`
+
+## Logging
+### Facilities code
+<hr/>
+
+|Code|Facility|Description|
+|----|--------|-----------|
+|0	 | kern	Kernel|  messages|
+|1	 |user	  |User-level messages|
+|2	 |mail	  |Mail system|
+|3	 |daemon  | System daemons|
+|4	 |auth	  |Security/authorization messages|
+|5	 |syslog	|Messages generated internally by syslogd|
+|6	 |lpr	|Line printer subsystem|
+|7	 |news	| Network news subsystem|
+|8	| uucp	|UUCP subsystem|
+|9	|cron	|Clock daemon|
+|10	|authpriv	|Security/authentication messages|
+|11|	ftp	| FTP daemon|
+|12|	ntp	|NTP subsystem|
+|13|	security	| Log audit |
+|14|	console	| Log alert|
+|15|	clock	|Clock daemon|
+|16-23|	local0 - local7	|Locally used facilities|
+
+### Priorities codes
+<hr/>
+
+|Code|Priority|Description|
+|----|--------|-----------|
+|0|	emergency	|System is unusable|
+|1|	alert	|Action must be taken immediately|
+|2|	critical	|Critical conditions|
+|3|	error	|Error Conditions|
+|4|	warning	|Warning conditions|
+|5|	notice	|Normal but significant condition|
+
+**File /etc/rsyslog.con:** Add configuration like this 
+```
+# <facility>.<severity>    <action>
+mail.notice /var/log/mail_errors
+```
+
+**tail:** By default, tail displays the last ten lines written to a file. Using the follow option (-f or --follow
+) allows you to monitor the file continuously. As new lines are written, they are printed to the user’s terminal.
