@@ -533,9 +533,9 @@ Add a new line similar to the one that follows:
 |5	 |syslog	|Messages generated internally by syslogd|
 |6	 |lpr	|Line printer subsystem|
 |7	 |news	| Network news subsystem|
-|8	| uucp	|UUCP subsystem|
-|9	|cron	|Clock daemon|
-|10	|authpriv	|Security/authentication messages|
+|8	 | uucp	|UUCP subsystem|
+|9	 |cron	|Clock daemon|
+|10	 |authpriv	|Security/authentication messages|
 |11|	ftp	| FTP daemon|
 |12|	ntp	|NTP subsystem|
 |13|	security	| Log audit |
