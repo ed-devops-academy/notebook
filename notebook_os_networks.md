@@ -511,7 +511,7 @@ Add a new line similar to the one that follows:
 
   1- Cn be used *lvextend* to extend the size of the snapshot.
 
-  2- To restore a snapshot, first you would need to unmount the filesystem. To unmount, we will use the umount command: `sudo umount /mnt/mymusic`. And then we can proceed to restore the snapshot with the lvconvert command like this: `lconvert --merge /dev/mapper/new_volumne_name-music--snap01`. After that the snapshot is removed.
+  2- To restore a snapshot, first you would need to unmount the filesystem. To unmount, we will use the umount command: `sudo umount /mnt/mymusic`. And then we can proceed to restore the snapshot with the lvconvert command like this: `lvconvert --merge /dev/mapper/new_volumne_name-music--snap01`. After that the snapshot is removed.
 
 * **lvextend** - Use to extend the size of a logical volume with space available on the volume group. Example 
 
