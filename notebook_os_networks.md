@@ -6,6 +6,7 @@
 * [Process text streams using filters. Use streams, pipes and redirects](#process-text-streams-using-filters-use-streams-pipes-and-redirects)
 * [Create, monitor and kill processes and working with cron](#create-monitor-and-kill-processes-and-working-with-cron)
 * [Basic file editing operations using vi](#basic-file-editing-operations-using-vi)
+* [Working with Logical Volume Managment (LVM)](#working-with-logical-volume-managment-lvm)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -477,3 +478,42 @@ sudo nano /etc/fstab
 Add a new line similar to the one that follows:
 
 `LABEL=NEW_STORAGE /dev/sda /mnt/sdb ext4 defaults 0 0`
+
+## Working with Logical Volume Managment (LVM)
+### Diagram of LVM
+<hr/>
+
+![Diagram of LVM](images/lvm_diagram.png)
+
+### Commands of interest
+<hr/>
+
+* **pvcreate** - Create the LVM physical volume. Ex: `pvcreate /dev/sda`.
+* **vgcreate** - Create a new volume group to add the new physical volume. Exmple:
+`vgcreate new_volumne_name /dev/sda`
+* **vgdisplay** - Show information a volumen group. Example: `vgdisplay new_volumne_name`
+* **lvcreate** - Create a logical volume and add to a volume group. Example: `lvcreate -n music -L 100M new_volumne_name`, this command create a logical volume named muscic with a size of 100 MB to the volume group `new_volumne_name`. This procedure create a device named /dev/mapper/new_volumne_name-music. That device can now be used to put a ﬁlesystem on and mount, just as you did with regular partitions in the ﬁ rst part of this chapter. For example:
+
+  1- `mkfs -t ext4 /dev/mapper/new_volumne_name-music` to format the filesystem to ext4
+
+  2- `mkdir /mnt/mymusic` create a dir to mount the device
+
+  3- `mount /dev/mapper/new_volumne_name-music /mnt/mymusic` mounts the device
+
+  4- `df -h /mnt/mymusic` to check the new disk layout
+
+  5- To make them permanent, you will have to edit the */etc/fstab* and add the next line 
+  
+  `/dev/mapper/new_volumne_name-projects /mnt/mymusic ext4 defaults 1 2`
+
+  **Snapshots:** You can use lvcreate to create snapshot passing -s as argument like this `lvcreate -s -L 5G -n music-snap01 /dev/mapper/new_volumne_name-music`. This create a snapshot of the logical volume new_volumne_name-music of 5G wth label music-snap01.
+
+  1- Cn be used *lvextend* to extend the size of the snapshot.
+
+  2- To restore a snapshot, first you would need to unmount the filesystem. To unmount, we will use the umount command: `sudo umount /mnt/mymusic`. And then we can proceed to restore the snapshot with the lvconvert command like this: `lconvert --merge /dev/mapper/new_volumne_name-music--snap01`
+
+* **lvextend** - Use to extend the size of a logical volume with space available on the volume group. Example 
+
+  1- `lvextend -L +5G /dev/mapper/new_volumne_name-music` Adds 5G to the logical volume
+
+  2- Then resize the filesystem to fit the new size of the logical volume using *resize2fs*. Example: `resize2fs -p /dev/mapper/new_volumne_name-music`
