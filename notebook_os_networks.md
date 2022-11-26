@@ -8,6 +8,7 @@
 * [Basic file editing operations using vi](#basic-file-editing-operations-using-vi)
 * [Working with Logical Volume Managment (LVM)](#working-with-logical-volume-managment-lvm)
 * [Logging](#logging)
+* [TCP/IP, base Linux network administration](#tcpip-base-linux-network-administration)
 
 ## **Installing and working with a boot manager (GRUB 2)**
 
@@ -563,3 +564,23 @@ mail.notice /var/log/mail_errors
 
 **tail:** By default, tail displays the last ten lines written to a file. Using the follow option (-f or --follow
 ) allows you to monitor the file continuously. As new lines are written, they are printed to the user’s terminal.
+
+## TCP/IP, base Linux network administration
+
+### TCP/IP Model
+<hr/>
+
+![TCP/IP Model](images/tcp%20model.png)
+
+### Using netplan to configure networks interfaces
+<hr/>
+
+* Edit file **/etc/netplan/00-installer-config.yaml**.
+* Use command `sudo netplan try` to check and accept current configration
+* Use command `sudo netplan apply` to apply configuration.
+
+### Hostname
+<hr/>
+
+* `hostname` command is used to check hostname of the machine
+* `hostnamectl set-hostname <new-hostname>` command is used to change the hostname 
