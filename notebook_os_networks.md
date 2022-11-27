@@ -584,3 +584,32 @@ mail.notice /var/log/mail_errors
 
 * `hostname` command is used to check hostname of the machine
 * `hostnamectl set-hostname <new-hostname>` command is used to change the hostname 
+
+### Simple bridge between interface
+<hr/>
+
+```
+sudo apt-get update
+sudo apt-get install bridge-utils
+sudo brctl addbr myBridge
+sudo ifconfig enp0s8 promisc 0.0.0.0
+sudo ifconfig enp0s9 promisc 0.0.0.0
+sudo brctl addif myBridge enp0s8
+sudo brctl addif myBridge enp0s9
+sudo ifconfig myBridge up
+```
+
+### FRR routing networking suite
+<hr/>
+
+#### **Installation**
+```
+# update and install FRR
+sudo apt update && sudo apt install frr frr-pythontools
+```
+
+#### **Configuration**
+```
+sudo sed -i s/eigrpd=no/eigrpd=yes/g /etc/frr/daemons
+sudo systemctl restart frr
+```
