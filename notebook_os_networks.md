@@ -613,3 +613,25 @@ sudo apt update && sudo apt install frr frr-pythontools
 sudo sed -i s/eigrpd=no/eigrpd=yes/g /etc/frr/daemons
 sudo systemctl restart frr
 ```
+
+#### **Configure router exampke**
+```
+vtysh
+----
+
+Hello, this is FRRouting (version 8.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+emiguel# conf t
+emiguel(config)# router eigrp 10
+emiguel(config-router)# network 10.0.0.0/30
+emiguel(config-router)# network 192.168.0.0/24
+emiguel(config-router)# emiguel# 
+emiguel# wr
+Note: this version of vtysh never writes vtysh.conf
+Building Configuration...
+Integrated configuration saved to /etc/frr/frr.conf
+[OK]
+emiguel#
+```
+
