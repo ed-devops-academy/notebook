@@ -635,3 +635,56 @@ Integrated configuration saved to /etc/frr/frr.conf
 emiguel#
 ```
 
+### **Vbox small network example**
+<hr/>
+
+![Vbox network example](/images/vbox_network.png)
+
+**Netplan conf file on 10.12.1.5 vbox ubuntu machine**
+
+```
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: true
+      routes:
+      - to: 192.168.43.0/24
+        via: 10.12.1.1
+        on-link: true
+      - to: 0.0.0.0/0 
+        via: 10.12.1.1
+        on-link: true  
+  version: 2
+```
+
+**NFTables configuration file example**
+
+```
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+	chain input {
+		type filter hook input priority 0;
+    # drop all the packets request to connect to ssh on the machine
+		tcp dport ssh drop
+	}
+	chain forward {
+		type filter hook forward priority 0;
+	}
+	chain output {
+		type filter hook output priority filter;
+	}
+}
+
+table inet proxy_redicrect {
+	chain prerouting {
+		type nat hook prerouting priority 0;
+    # redirect all the income packages through 80 and 443 to 3128 proxy port
+		tcp dport 80 counter redirect to 3128
+		tcp dport 443 counter redirect to 3128
+	}
+}
+```
+
