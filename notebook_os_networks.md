@@ -647,6 +647,9 @@ network:
   ethernets:
     enp0s3:
       dhcp4: true
+      nameservers:
+        search: [vbox.local]
+        addresses: [10.12.1.1]
       routes:
       - to: 192.168.43.0/24
         via: 10.12.1.1
@@ -664,10 +667,14 @@ network:
 
 flush ruleset
 
+define interface_external = "enp0s3"
+
 table inet filter {
 	chain input {
 		type filter hook input priority 0;
-    # drop all the packets request to connect to ssh on the machine
+    # allowing port dns connections
+		tcp dport { 53, 953 } accept
+    # rejecting port 22/ssh connections from other hosts
 		tcp dport ssh drop
 	}
 	chain forward {
@@ -675,15 +682,21 @@ table inet filter {
 	}
 	chain output {
 		type filter hook output priority filter;
+		# ip protocol icmp accept
+	 	# meta nfproto ipv4 reject
 	}
 }
 
-table inet proxy_redicrect {
+table inet nat_masquerade {
 	chain prerouting {
-		type nat hook prerouting priority 0;
-    # redirect all the income packages through 80 and 443 to 3128 proxy port
-		tcp dport 80 counter redirect to 3128
-		tcp dport 443 counter redirect to 3128
+		type nat hook prerouting priority -101;
+		ip protocol icmp counter meta nftrace set 1
+	}
+	
+	chain postrouting {
+		type nat hook postrouting priority srcnat;
+    # masquerade to interface ip
+		oifname interface_external masquerade 
 	}
 }
 ```
