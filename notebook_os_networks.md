@@ -716,6 +716,12 @@ keytool -genkey -alias initcert  -keyalg  RSA  -keystore keycloak.jks  -validity
 
 **Shell Script To Create Self-Signed Certificate**
 
+**Self-signed certificate creation diagram**
+
+![self-signed certificate creation diagram](images/personal_cert_autority.png)
+
+**The shell script code**
+
 ```
 #! /bin/bash
 
