@@ -701,6 +701,16 @@ table inet nat_masquerade {
 }
 ```
 
+### Using Network Manager Client
+
+**Managing connection**
+
+* **nmcli connection show** : List connection. Can use --active to show only active connections.
+
+* **nmcli connection modify <connection_name> <config_paramenter> <config_value** : Modify a connection parameter. Example run `mcli connection modify ethernet-enp0s8-1 ipv4.address 192.168.1.40/24` to add a static ip address. After a connection modification in order to change make effect need to down/up the connection, example `nmcli connection down ethernet-enp0s8-1` and `nmcli connection up ethernet-enp0s8-1`.
+
+* In the same manner is posible manage network device instead connections using `nmcli device show` or `nmcli device modify` 
+
 ### Openssl cert creation
 <hr/>
 
